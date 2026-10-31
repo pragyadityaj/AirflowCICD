@@ -53,7 +53,7 @@ def main(env, bq_project, bq_dataset, transformed_table, route_insights_table, o
         booking_origin_insights = transformed_data.groupBy("booking_origin").agg(
             count("*").alias("total_bookings"),
             round(avg("booking_success_rate"),2).alias("success_rate"),
-            avg("purchase_lead").alias("avg_purchase_lead")
+            round(avg("purchase_lead"),2).alias("avg_purchase_lead")
         )
 
         logger.info("Data transformations completed.")
