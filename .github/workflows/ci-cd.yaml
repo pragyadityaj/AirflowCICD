@@ -36,20 +36,20 @@ jobs:
       # Import Variables into Airflow-DEV
       - name: Import Variables into Airflow-DEV
         run: |
-          gcloud composer environments run airflow-dev \
+          gcloud composer environments run airflow-demo \
             --location us-central1 \
             variables import -- /home/airflow/gcs/data/dev/variables.json
 
       # Sync Spark job to GCS
       - name: Upload Spark Job to GCS
         run: |
-          gsutil cp spark_job/spark_transformation_job.py gs://airflow-projects-bucket/flight-booking-analysis/spark-job/
+          gsutil cp spark_job/spark_transformation_job.py gs://airflow-projects-bkt/flight-booking-analysis/spark-job/
 
       # Sync Airflow DAG to Airflow DEV Composer
       - name: Upload Airflow DAG to DEV Environment (Dag Folder)
         run: |
           gcloud composer environments storage dags import \
-            --environment airflow-dev \
+            --environment airflow-demo \
             --location us-central1 \
             --source airflow_job/airflow_job.py
 
@@ -82,19 +82,19 @@ jobs:
       # Import Variables into Airflow-PROD
       - name: Import Variables into Airflow-PROD
         run: |
-          gcloud composer environments run airflow-prod \
+          gcloud composer environments run airflow-demo \
             --location us-central1 \
             variables import -- /home/airflow/gcs/data/prod/variables.json
 
       # Sync Spark job to GCS
       - name: Upload Spark Job to GCS
         run: |
-          gsutil cp spark_job/spark_transformation_job.py gs://airflow-projects-bucket/flight-booking-analysis/spark-job/
+          gsutil cp spark_job/spark_transformation_job.py gs://airflow-projects-bkt/flight-booking-analysis/spark-job/
 
       # Sync Airflow DAG to Airflow PROD Composer
       - name: Upload Airflow DAG to PROD Environment (Dag Folder)
         run: |
           gcloud composer environments storage dags import \
-            --environment airflow-prod \
+            --environment airflow-demo \
             --location us-central1 \
             --source airflow_job/airflow_job.py
